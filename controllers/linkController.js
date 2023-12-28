@@ -8,20 +8,6 @@ const linkSchema = yup.object().shape({
   url: yup.string().required(),
 });
 
-async function createLink(req, res) {
-  const validatedData = await linkSchema.validate(req.body, {
-    abortEarly: false,
-  });
-  const newLink = await Link.create(validatedData);
-
-  res.status(201).json({
-    data: {
-      link: newLink,
-    },
-    _msg: "Link created successfully",
-  });
-}
-
 async function getAllLinks(req, res) {
   const links = await Link.findAll();
   res.status(200).json({ data: { links: links }, _msg: "All links in the db" });
@@ -41,20 +27,34 @@ async function getLinkById(req, res) {
   }
 }
 
+async function createLink(req, res) {
+  const validatedData = await linkSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  const newLink = await Link.create(validatedData);
+
+  res.status(201).json({
+    data: {
+      link: newLink,
+    },
+    _msg: "Link created successfully",
+  });
+}
+
 async function updateLink(req, res) {
   const linkId = req.params.id;
 
   const validatedData = await linkSchema.validate(req.body, {
     abortEarly: false,
   });
-  const [updatedRowsCount, updatedLink] = await Link.update(validatedData, {
+
+  const result = await Link.update(validatedData, {
     where: { id: linkId },
-    returning: true,
   });
 
-  if (updatedRowsCount > 0) {
+  if (result) {
     res.status(200).json({
-      data: { link: updatedLink[0] },
+      data: { rowsUpdated: result },
       _msg: "Link updated successfully",
     });
   } else {
