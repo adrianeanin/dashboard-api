@@ -1,29 +1,24 @@
 const express = require("express");
-const mysql = require("mysql2");
 require("dotenv").config();
 const app = express();
 const cors = require("cors");
-const logger = require("./utils/logger");
-const config = require("./utils/config");
+// const logger = require("./utils/logger");
+const sequelize = require("./utils/database");
+const Admin = require("./models/admin");
+const Link = require("./models/link");
 
-// MySQL DB Connection
-const pool = mysql
-  .createPool({
-    host: config.dbhost,
-    user: config.dbuser,
-    password: config.dbpassword,
-    database: config.database,
-  })
-  .promise();
+//  DB Connection
+Admin.hasMany(Link, { foreignKey: "adminId", as: "links" }); // Associations
 
-pool
-  .getConnection()
-  .then((connection) => {
-    logger.info(`Connected to MySQL as id ${connection.threadId}`);
-    connection.release();
+sequelize
+  .sync({ force: true })
+  .then((res) => {
+    console.log("Sync successful");
+    console.log("The result", res);
   })
   .catch((err) => {
-    logger.error(`Error connecting to MySQL: ${err.stack}`);
+    console.error("Sync failed");
+    console.error("An error", err);
   });
 
 // Middleware Connections
@@ -31,19 +26,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.get("/", async (req, res) => {
-  try {
-    const connection = await pool.getConnection();
-    const [results, fields] = await connection.execute(
-      "SELECT 1 + 1 AS solution"
-    );
-    connection.release(); // Release the connection after use
 
-    res.send(`The solution is: ${results[0].solution}`);
-  } catch (error) {
-    console.error("Error executing query: " + error.message);
-    res.status(500).send("Internal Server Error");
-  }
+app.get("/", (req, res) => {
+  res.send("an sql test");
 });
 
 module.exports = app;
