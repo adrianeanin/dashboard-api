@@ -10,7 +10,7 @@ const registerSchema = yup.object().shape({
   isAdmin: yup.boolean(),
 });
 
-async function registerUser(req, res) {
+async function addUser(req, res) {
   const validatedData = await registerSchema.validate(req.body, {
     abortEarly: false,
   });
@@ -31,10 +31,10 @@ async function registerUser(req, res) {
         email: newUser.email,
       },
     },
-    _msg: "User registered successfully",
+    _msg: "User added successfully",
   });
 }
 
 module.exports = {
-  registerUser,
+  addUser,
 };
