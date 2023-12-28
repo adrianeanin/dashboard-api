@@ -6,6 +6,8 @@ const cors = require("cors");
 const sequelize = require("./utils/database");
 const User = require("./models/user");
 const Link = require("./models/link");
+const registerRouter = require("./routes/registerRouter");
+const loginRouter = require("./routes /loginRouter");
 
 //  DB Connection
 User.hasMany(Link, { foreignKey: "userId", as: "links" }); // Associations
@@ -24,11 +26,18 @@ sequelize
 // Middleware Connections
 app.use(cors());
 app.use(express.json());
+app.use(middleware.requestLogger);
 
 // Routes
 
 app.get("/", (req, res) => {
   res.send("an sql test");
 });
+
+app.use("/api/users", registerRouter, loginRouter);
+
+// Error handling middleware
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;
