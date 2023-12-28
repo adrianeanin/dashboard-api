@@ -4,11 +4,11 @@ const app = express();
 const cors = require("cors");
 // const logger = require("./utils/logger");
 const sequelize = require("./utils/database");
-const Admin = require("./models/admin");
+const User = require("./models/user");
 const Link = require("./models/link");
 
 //  DB Connection
-Admin.hasMany(Link, { foreignKey: "adminId", as: "links" }); // Associations
+User.hasMany(Link, { foreignKey: "userId", as: "links" }); // Associations
 
 sequelize
   .sync({ force: true })
