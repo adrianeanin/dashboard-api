@@ -22,9 +22,15 @@ async function registerUser(req, res) {
     isAdmin: validatedData.isAdmin || false,
   });
 
-  res
-    .status(201)
-    .json({ message: "User registered successfully", user: newUser });
+  res.status(201).json({
+    data: {
+      user: {
+        name: newUser.name,
+        email: newUser.email,
+      },
+    },
+    _msg: "User registered successfully",
+  });
 }
 
 module.exports = {

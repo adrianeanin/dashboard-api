@@ -20,7 +20,6 @@ async function loginUser(req, res) {
     },
   });
 
-  const name = user.name;
   const passwordCorrect =
     user === null
       ? false
@@ -41,7 +40,14 @@ async function loginUser(req, res) {
     expiresIn: "2h",
   });
 
-  res.status(200).send({ name: user.name, email: user.email, token });
+  res.status(200).send({
+    data: {
+      name: user.name,
+      email: user.email,
+      token,
+    },
+    _msg: "Login successful",
+  });
 }
 
 module.exports = { loginUser };
