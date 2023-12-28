@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const { hashPassword } = require("../utils/encryption");
+const yup = require("yup");
+require("express-async-errors");
 
 const registerSchema = yup.object().shape({
   name: yup.string().required(),

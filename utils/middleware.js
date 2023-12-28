@@ -22,7 +22,7 @@ const userExtractor = async (req, res, next) => {
     const decodedToken = jwt.verify(token, config.SECRET);
 
     if (decodedToken.id) {
-      const user = await User.findbyPk(decodedToken.id);
+      const user = await User.findByPk(decodedToken.id);
       req.user = user;
     }
   }
@@ -41,36 +41,37 @@ const authenticateJWT = (req, res, next) => {
   next();
 };
 
-const requestLogger = (request, response, next) => {
-  logger.info("Method:", request.method);
-  logger.info("Path:  ", request.path);
-  logger.info("Body:  ", request.body);
+// For Development only
+const requestLogger = (req, res, next) => {
+  logger.info("Method:", req.method);
+  logger.info("Path:  ", req.path);
+  logger.info("Body:  ", req.body);
   logger.info("---");
   next();
 };
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
 };
 
-const errorHandler = (error, request, response, next) => {
-  logger.error(error.message);
+const errorHandler = (err, req, res, next) => {
+  logger.error(err.message);
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
-  } else if (error.name === "JsonWebTokenError") {
-    return response.status(401).json({
-      error: "invalid token",
+  if (err.name === "CastError") {
+    return res.status(400).send({ err: "malformatted id" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({ err: err.message });
+  } else if (err.name === "JsonWebTokenError") {
+    return res.status(401).json({
+      err: "invalid token",
     });
-  } else if (error.name === "TokenExpiredError") {
-    return response.status(401).json({
-      error: "token expired",
+  } else if (err.name === "TokenExpiredError") {
+    return res.status(401).json({
+      err: "token expired",
     });
   }
 
-  next(error);
+  next(err);
 };
 
 module.exports = {
