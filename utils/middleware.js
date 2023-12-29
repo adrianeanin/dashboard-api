@@ -54,27 +54,27 @@ const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
-const errorHandler = (err, req, res, next) => {
-  logger.error(err.message);
+const errorHandler = (error, req, res, next) => {
+  logger.error(error.message);
 
-  if (err.name === "CastError") {
-    return res.status(400).send({ err: "malformatted id" });
-  } else if (err.name === "ValidationError") {
-    return res.status(400).json({ err: err.message });
-  } else if (err.name === "JsonWebTokenError") {
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return res.status(400).json({ error: error.message });
+  } else if (error.name === "JsonWebTokenError") {
     return res.status(401).json({
-      err: "invalid token",
+      error: "invalid token",
     });
-  } else if (err.name === "TokenExpiredError") {
+  } else if (error.name === "TokenExpiredError") {
     return res.status(401).json({
-      err: "token expired",
+      error: "token expired",
     });
-  } else if (err.name === "SequelizeValidationError") {
+  } else if (error.name === "SequelizeValidationError") {
     return res
       .status(400)
-      .json({ err: "Validation error", details: err.errors });
-  } else if (err.name === "SequelizeUniqueConstraintError") {
-    return res.status(400).json({ err: "Email already exists" });
+      .json({ error: "Validation error", details: error.errors });
+  } else if (error.name === "SequelizeUniqueConstraintError") {
+    return res.status(400).json({ error: "Email already exists" });
   }
 
   next(err);

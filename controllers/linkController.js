@@ -1,7 +1,7 @@
+require("express-async-errors");
 const Link = require("../models/link");
 const yup = require("yup");
 const { body } = require("express-validator");
-require("express-async-errors");
 
 // Validation
 const linkSchema = yup.object().shape({

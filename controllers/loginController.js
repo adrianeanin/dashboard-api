@@ -1,9 +1,9 @@
+require("express-async-errors");
 const yup = require("yup");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../utils/config");
 const { body } = require("express-validator");
-require("express-async-errors");
 const { comparePasswords } = require("../utils/encryption");
 
 // Validation

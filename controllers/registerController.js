@@ -1,8 +1,8 @@
+require("express-async-errors");
 const User = require("../models/user");
 const { hashPassword } = require("../utils/encryption");
 const yup = require("yup");
 const { body } = require("express-validator");
-require("express-async-errors");
 
 // Validation
 const registerSchema = yup.object().shape({
