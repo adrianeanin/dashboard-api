@@ -8,8 +8,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node ./utils/seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "seed": "node ./seeders/seed.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "test": "jest --verbose --runInBand"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -27,6 +28,12 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "eslint": "^8.51.0",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

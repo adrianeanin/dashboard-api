@@ -1,5 +1,5 @@
-const sequelize = require("./database");
-const config = require("./config");
+const sequelize = require("../utils/database");
+const config = require("../utils/config");
 const User = require("../models/user");
 const yup = require("yup");
 const { hashPassword } = require("../utils/encryption");
@@ -35,4 +35,12 @@ const seedAdmin = async () => {
   }
 };
 
-seedAdmin();
+User.sync()
+  .then(() => {
+    console.log("Users table created or already exists.");
+    seedAdmin();
+  })
+  .catch((error) => {
+    console.error("Error creating Users table:", error);
+    sequelize.close();
+  });
