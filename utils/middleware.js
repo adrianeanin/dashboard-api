@@ -69,6 +69,12 @@ const errorHandler = (err, req, res, next) => {
     return res.status(401).json({
       err: "token expired",
     });
+  } else if (err.name === "SequelizeValidationError") {
+    return res
+      .status(400)
+      .json({ err: "Validation error", details: err.errors });
+  } else if (err.name === "SequelizeUniqueConstraintError") {
+    return res.status(400).json({ err: "Email already exists" });
   }
 
   next(err);
