@@ -1,3 +1,5 @@
+/* global beforeAll, describe, it, expect, afterAll */
+
 const { exec } = require("child_process");
 const config = require("../utils/config");
 const request = require("supertest");
@@ -9,7 +11,7 @@ let adminAuthToken;
 beforeAll(async () => {
   // Run seed script
   await new Promise((resolve, reject) => {
-    const child = exec("node ./seeders/seed.js", (error, stdout, stderr) => {
+    exec("node ./seeders/seed.js", (error) => {
       if (error) {
         console.error(`Error executing seed script: ${error}`);
         reject(error);
