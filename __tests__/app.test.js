@@ -14,7 +14,6 @@ beforeAll(async () => {
         console.error(`Error executing seed script: ${error}`);
         reject(error);
       } else {
-        console.log(`Seed script output: ${stdout}`);
         resolve();
       }
     });

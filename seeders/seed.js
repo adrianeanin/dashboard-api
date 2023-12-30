@@ -2,6 +2,7 @@ const sequelize = require("../utils/database");
 const config = require("../utils/config");
 const User = require("../models/user");
 const yup = require("yup");
+const logger = require("../utils/logger");
 const { hashPassword } = require("../utils/encryption");
 
 const adminSchema = yup.object().shape({
@@ -27,9 +28,9 @@ const seedAdmin = async () => {
       isAdmin: true,
     });
 
-    console.log("Admin user seeded successfully.");
+    logger.info("Admin user seeded successfully.");
   } catch (error) {
-    console.error("Error seeding admin user:", error);
+    logger.error("Error seeding admin user:", error);
   } finally {
     await sequelize.close();
   }
@@ -37,10 +38,10 @@ const seedAdmin = async () => {
 
 User.sync()
   .then(() => {
-    console.log("Users table created or already exists.");
+    logger.info("Users table created or already exists.");
     seedAdmin();
   })
   .catch((error) => {
-    console.error("Error creating Users table:", error);
+    logger.error("Error creating Users table:", error);
     sequelize.close();
   });
