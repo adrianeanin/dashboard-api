@@ -5,7 +5,8 @@ const sequelize = new Sequelize(
   config.database,
   config.dbuser,
   config.dbpassword,
-  { dialect: "mysql", host: config.dbhost }
+
+  { dialect: "mysql", host: config.dbhost, port: config.dbport }
 );
 
 module.exports = sequelize;

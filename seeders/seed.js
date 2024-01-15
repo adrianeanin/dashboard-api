@@ -11,7 +11,7 @@ const adminSchema = yup.object().shape({
   adminPassword: yup.string().required(),
 });
 
-const seedAdmin = async () => {
+async function seedAdmin() {
   try {
     await adminSchema.validate(config, { abortEarly: false });
 
@@ -34,14 +34,25 @@ const seedAdmin = async () => {
   } finally {
     await sequelize.close();
   }
-};
+}
 
-User.sync()
-  .then(() => {
+async function runScript() {
+  try {
+    await sequelize.authenticate();
+    logger.info("Connection has been established successfully.");
+
+    await sequelize.sync();
+    logger.info("Database created or already exists.");
+
+    await User.sync();
     logger.info("Users table created or already exists.");
-    seedAdmin();
-  })
-  .catch((error) => {
-    logger.error("Error creating Users table:", error);
-    sequelize.close();
-  });
+
+    await seedAdmin();
+  } catch (error) {
+    logger.error("Error running script:", error);
+  } finally {
+    await sequelize.close();
+  }
+}
+
+runScript();
