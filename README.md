@@ -43,8 +43,8 @@ yarn install
 5. Create the test, dev and prod databases by entering the command `CREATE DATABASE your_db_name;`.
 6. Enter `SHOW DATABASES;` to confirm the databases were created.
 7. Update the `./utils/database.js` file with the appropriate connection details.
-8. Run the admin seed script `yarn seed`.
-9. Run the application `yarn dev` for dev mode or `yarn start` for production.
+8. Run the admin seed script `yarn seed`, the seed script is run in development mode, to run in production mode, change the script in the package.json file.
+9. Run the application `yarn dev` for development mode or`yarn start` for production.
 
 ### Configuration
 
