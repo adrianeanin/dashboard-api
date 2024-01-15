@@ -19,7 +19,7 @@ The dashboard api is a Node.js API that provides functionality for user registra
 ### Prerequisites
 
 - Node.js and yarn installed
-- MySQL database
+- MySQL installed
 
 ### Installation
 
@@ -38,10 +38,13 @@ yarn install
 
 ```
 
-3. Set up your MySQL database and update the `./utils/database.js` file with the appropriate connection details.
-4. Create a `.env` file at the root of the project and add the necessary environment variables found in `./config/config.js` and `./utils/config.js`.
-5. Run the admin seed script `yarn seed`.
-6. Run the application `yarn dev` for dev mode or `yarn start` for production.
+3. Use the sample `.env` file provided at the root of the project and add the necessary environment variables found in `.env`.
+4. Login to MySql `mysql -u your_username -p` with your credentials, enter password when prompted.
+5. Create the test, dev and prod databases by entering the command `CREATE DATABASE your_db_name;`.
+6. Enter `SHOW DATABASES;` to confirm the databases were created.
+7. Update the `./utils/database.js` file with the appropriate connection details.
+8. Run the admin seed script `yarn seed`.
+9. Run the application `yarn dev` for dev mode or `yarn start` for production.
 
 ### Configuration
 
