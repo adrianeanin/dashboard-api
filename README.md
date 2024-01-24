@@ -50,7 +50,8 @@ yarn install
 
 #### Database
 
-To run db migration, run the migration script `yarn migrate`.
+To run db migration, you can use the sample file in the migrations folder as a starting point and run the migration script with `npx sequelize-cli db:migrate`.
+You can also simply run `yarn migrate`.
 
 #### Rate Limiting
 
